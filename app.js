@@ -114,37 +114,49 @@ $(document).ready(function () {
         event.preventDefault();
         //get the question answer from the user
         let userAnswer = $("input[class='option']:checked").val();
-
-        //get the correct answer from the questionsArray above
-        let correctAnswer = questionArray[currentQuestion].questionCorrect;
-        console.log(correctAnswer);
-        //compare the user answer with the correct answer
-        if (userAnswer == correctAnswer) {
-            //if the answer was correct increment the total number of correct answers
-            correctQuestionsCounter++;
-            //console.log(totalNumberOfCorrectAnswers);
+        console.log(userAnswer);
+        //        if the user doesnt choose anything...
+        if (userAnswer === undefined) {
+            //            show error message
+            alert("please select an answer")
         }
-        $('#result_msg').append("<h3>Q: " + questionArray[currentQuestion].questionText + "</h3>");
-        $('#result_msg').append("<h4>A: " + questionArray[currentQuestion].questionsDetails + "</h4>");
-        //if quiz is finished, show result-section
-        if ((currentQuestion + 1) == totalNumberOfQuestions) {
-
-            //show the final score
-            $('#finalScore').text(correctQuestionsCounter + "/" + totalNumberOfQuestions);
-
-            //hide other containers
-            $('.result-section').show();
-            $('.start-section').hide();
-            $('.quiz-section').hide();
-        }
-        //else continue to next question
+        //        is the user chooses an answer...
         else {
-            //increment the current question number
-            currentQuestion++;
-            //display the following question
-            displayQuiz();
-        }
+            //get the correct answer from the questionsArray above
+            let correctAnswer = questionArray[currentQuestion].questionCorrect;
+            //        console.log(correctAnswer);
 
+            //compare the user answer with the correct answer
+
+            if (userAnswer == correctAnswer) {
+                //if the answer was correct increment the total number of correct answers
+                correctQuestionsCounter++;
+                alert("Correct!");
+                //console.log(totalNumberOfCorrectAnswers);
+            } else {
+                alert("Correct answer is: " + questionArray[currentQuestion].questionsDetails);
+            }
+            $('#result_msg').append("<h3>Q: " + questionArray[currentQuestion].questionText + "</h3>");
+            $('#result_msg').append("<h4>A: " + questionArray[currentQuestion].questionsDetails + "</h4>");
+            //if quiz is finished, show result-section
+            if ((currentQuestion + 1) == totalNumberOfQuestions) {
+
+                //show the final score
+                $('#finalScore').text(correctQuestionsCounter + "/" + totalNumberOfQuestions);
+
+                //hide other containers
+                $('.result-section').show();
+                $('.start-section').hide();
+                $('.quiz-section').hide();
+            }
+            //else continue to next question
+            else {
+                //increment the current question number
+                currentQuestion++;
+                //display the following question
+                displayQuiz();
+            }
+        }
     });
     //when try again button is clicked hide everything and show start section
     $('#tryagain').click(function () { //start the quiz and show the first question
